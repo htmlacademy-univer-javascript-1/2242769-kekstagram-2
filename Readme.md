@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Илья Коноплицкий](https://up.htmlacademy.ru/univer-js1/1/user/2221761).
-* Наставник: [Павел Нюкало](https://htmlacademy.ru/profile/nyukalopavel).
+* Студент: [Николай Киреев](https://up.htmlacademy.ru/univer-js1/2/user/2242769).
+* Наставник: `Неизвестно`. 
 
 ---
 
