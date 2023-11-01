@@ -1,7 +1,10 @@
 import { getRandomPositiveInteger } from './util.js';
 
 const COUNT = 25;
-const COMMENTS_COUNT = 5;
+const COMMENTS_COUNT = {
+  MIN: 0,
+  MAX: 5
+};
 
 const LIKE_COUNT = {
   MIN: 15,
@@ -18,7 +21,6 @@ const NAMES = [
   'Трей',
   'Андрей'
 ];
-
 const DESCRIPTION = [
   'Насыщенный день',
   'Красота заката',
@@ -26,7 +28,6 @@ const DESCRIPTION = [
   'Вечно вместе, весно врозь',
   'Последние солнечные дни'
 ];
-
 const MESSAGES = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -34,9 +35,7 @@ const MESSAGES = ['Всё отлично!',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
-
 const arrayObject = [];
-
 const commentArray = (count) => {
   const array = [];
   for (let i = 0; i < count; i++) {
@@ -49,8 +48,6 @@ const commentArray = (count) => {
   }
   return array;
 };
-
-
 const addPhotos = () => {
   for (let i = 0; i < COUNT; i++) {
     arrayObject.push({
@@ -58,11 +55,9 @@ const addPhotos = () => {
       url: `photos/${i + 1}.jpg`,
       description: DESCRIPTION[getRandomPositiveInteger(0, DESCRIPTION.length - 1)],
       likes: getRandomPositiveInteger(LIKE_COUNT.MIN, LIKE_COUNT.MAX),
-      comments: commentArray(getRandomPositiveInteger(COMMENTS_COUNT))
+      comments: commentArray(getRandomPositiveInteger(COMMENTS_COUNT.MIN, COMMENTS_COUNT.MAX))
     });
   }
 };
-
 addPhotos();
-
 export { arrayObject };
