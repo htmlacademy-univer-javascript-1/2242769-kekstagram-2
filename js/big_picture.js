@@ -1,59 +1,62 @@
+import { isEscape } from './util.js';
+
+const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
-const comment = document.querySelector('.social__comment');
-const closeButton = document.querySelector('.big-picture__cancel');
+const commentsCount = document.querySelector('.social__comment-count');
+const commentsLoader = document.querySelector('.comments-loader');
+const pictureClose = bigPicture.querySelector('.big-picture__cancel');
+const commentList = document.querySelector('.social__comments');
+const commentMessage = commentList.querySelector('.social__comment');
 
-const commentsCountInfo = bigPicture.querySelector('.social__comment-count');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
-
-const fullVersion = () => {
-  bigPicture.classList.toggle('hidden');
-  commentsCountInfo.classList.toggle('hidden');
-  commentsLoader.classList.toggle('hidden');
-  document.querySelector('body').classList.toggle('modal-open');
+const closePhoto = () => {
+  bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+  pictureClose.removeEventListener('click', closePhoto);
+  // eslint-disable-next-line no-use-before-define
+  document.removeEventListener('keydown', pressEscape);
 };
 
 
-const closeEscape = (evt) => {
-  if (evt.key === 'Escape') {
-    fullVersion();
+const pressEscape = (evt) => {
+  if (isEscape(evt)) {
+    evt.preventDefault();
+    closePhoto();
   }
 };
 
 
-const closingClickHandler = () => {
-  closeButton.addEventListener('click', fullVersion);
-  document.addEventListener('keydown', closeEscape);
+const getComment = (comment) => {
+  const commentElement = commentMessage.cloneNode(true);
+  commentElement.querySelector('.social__picture').src = comment.avatar;
+  commentElement.querySelector('.social__picture').alt = comment.name;
+  commentElement.querySelector('.social__text').textContent = comment.message;
+  return commentElement;
 };
 
 
-const addComments = (container, comments) => {
-  container.innerHTML = '';
-  comments.forEach((commentInfo) => {
-    const newComment = comment.cloneNode(true);
-    newComment.querySelector('.social__picture').src = commentInfo.avatar;
-    newComment.querySelector('.social__text').textContent = commentInfo.message;
-    container.append(newComment);
+const fillComments = (comments) => {
+  const fragment = document.createDocumentFragment();
+  comments.forEach((comment) => {
+    const newComment = getComment(comment);
+    fragment.appendChild(newComment);
   });
+  commentList.append(fragment);
 };
 
 
-const bigPhotoClickHandler = (photo, pictures) => {
-  photo.addEventListener('click', () => {
-    const img = bigPicture.querySelector('.big-picture__img').querySelector('img');
-    const likes = bigPicture.querySelector('.likes-count');
-    const commentsCount = bigPicture.querySelector('.comments-count');
-    const comments = bigPicture.querySelector('.social__comments');
-    const description = bigPicture.querySelector('.social__caption');
-
-    img.src = pictures.url;
-    likes.textContent = pictures.likes;
-    commentsCount.textContent = pictures.comments.length;
-    description.textContent = pictures.description;
-    addComments(comments, pictures.comments);
-
-    fullVersion();
-  });
-  closingClickHandler();
+const showBigPicture = (photo) => {
+  body.classList.add('modal-open');
+  bigPicture.classList.remove('hidden');
+  document.querySelector('.big-picture__img img').src = photo.url;
+  bigPicture.querySelector('.likes-count').textContent = photo.likes;
+  bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
+  bigPicture.querySelector('.social__caption').textContent = photo.description;
+  commentsCount.classList.add('hidden');
+  commentsLoader.classList.add('hidden');
+  commentList.innerHTML = '';
+  fillComments(photo.comments);
+  pictureClose.addEventListener('click', closePhoto);
+  document.addEventListener('keydown', pressEscape);
 };
 
-export { bigPhotoClickHandler };
+export { showBigPicture };

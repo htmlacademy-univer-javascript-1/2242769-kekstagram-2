@@ -5,8 +5,8 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-function checkStringLength(string, length) {
-  return string.length <= length;
-}
+const checkStringLength = (string, lenString) => string.length <= lenString;
 
-export { getRandomPositiveInteger, checkStringLength };
+const isEscape = (evt) => evt.key === 'Escape';
+
+export { getRandomPositiveInteger, checkStringLength, isEscape };
