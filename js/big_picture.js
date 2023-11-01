@@ -1,6 +1,6 @@
 import { createComment } from './comments.js';
 import { isEscape } from './util.js';
-import { numDecline } from './number.js';
+import { declineNumber } from './number.js';
 
 const COMMENTS_STEP = 5;
 
@@ -28,7 +28,7 @@ const addComments = () => {
     commentLoader.classList.remove('hidden');
   }
 
-  const commentsDecline = numDecline(currentComments.length, 'комментария', 'комментариев', 'комментариев');
+  const commentsDecline = declineNumber(currentComments.length, 'комментария', 'комментариев', 'комментариев');
   commentCounter.textContent = `${currentIndex} из ${currentComments.length} ${commentsDecline}`;
 
   commentsSelected.forEach((comment) => {
