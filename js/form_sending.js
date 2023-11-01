@@ -13,13 +13,14 @@ let message;
 
 const closeMessage = () => {
   message.classList.add('hidden');
+  message.innerHTML = '';
 };
 
-const onErrorEscapeKeyDown = (evt) => {
+const onDocumentMessageEscKeyDown = (evt) => {
   if (isEscape(evt)) {
     closeMessage();
     document.addEventListener('keydown', onDocumentEscKeyDown);
-    document.removeEventListener('keydown', onErrorEscapeKeyDown);
+    document.removeEventListener('keydown', onDocumentMessageEscKeyDown);
   }
 };
 
@@ -30,12 +31,12 @@ const showMessage = (isSuccessful) => {
   else {
     message = errorTemplate.cloneNode(true);
     document.removeEventListener('keydown', onDocumentEscKeyDown);
-    document.addEventListener('keydown', onErrorEscapeKeyDown);
   }
 
   message.style.zIndex = MESSAGE_Z_INDEX;
   message.classList.remove('hidden');
 
+  document.addEventListener('keydown', onDocumentMessageEscKeyDown);
   document.body.appendChild(message);
 };
 
@@ -44,23 +45,25 @@ const closeSendingForm = () => {
   closeForm();
 };
 
-const onSuccessButtonClicked = () => closeSendingForm();
+const onMessageSuccessButtonClick = () => closeSendingForm();
 
-const onErrorButtonClicked = () => closeMessage();
+const onMessageErrorButtonClick = () => closeMessage();
 
 const onSuccess = () => {
   showMessage(true);
-  message.addEventListener('click', onSuccessButtonClicked);
+  message.addEventListener('click', onMessageSuccessButtonClick);
 };
 
 const onFail = () => {
   showMessage(false);
-  message.addEventListener('click', onErrorButtonClicked);
+  message.addEventListener('click', onMessageErrorButtonClick);
 };
 
 const onFormEscKeyDown = (evt) => {
   if (isEscape(evt)) {
-    closeMessage();
+    if (message) {
+      closeMessage();
+    }
 
     if (message.classList.contains('success')) {
       closeForm();

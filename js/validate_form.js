@@ -88,6 +88,7 @@ const onFormInput = (evt) => {
 
 const resetForm = () => {
   pristine.reset();
+  form.reset();
 };
 
 pristine.addValidator(inputHashtag, validateHashtag, error);
