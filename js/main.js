@@ -1,3 +1,3 @@
-import { arrayObject } from "./data.js";
+import { arrayObject } from './data.js';
 
-arrayObject()
+arrayObject();
