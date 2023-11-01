@@ -1,7 +1,7 @@
-const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
-  const hundredths = num % 100;
+const declineNumber = (number, nominative, genitiveSingular, genitivePlural) => {
+  const hundredths = number % 100;
   if (hundredths <= 4 || hundredths > 20) {
-    const tenths = num % 10;
+    const tenths = number % 10;
     if (tenths === 1) {
       return nominative;
     }
@@ -12,4 +12,4 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
   return genitivePlural;
 };
 
-export { numDecline };
+export { declineNumber };

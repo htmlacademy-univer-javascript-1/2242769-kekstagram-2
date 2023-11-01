@@ -1,4 +1,4 @@
-import { onFormInput as onFormSubmit, resetForm } from './validate-form.js';
+import { onFormInput as onFormSubmit, resetForm } from './validate_form.js';
 import { isEscape } from './util.js';
 import { setDefaultScale } from './zoom.js';
 import { setDefaultEffect } from './effects.js';
@@ -38,14 +38,14 @@ const onDocumentEscKeyDown = (evt) => {
 };
 
 const onUploadingFieldInput = () => {
+  setDefaultScale();
+  setDefaultEffect();
+
   imageOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   closingButton.addEventListener('click', onClosingButtonClick);
   document.addEventListener('keydown', onDocumentEscKeyDown);
   form.addEventListener('submit', onFormSubmit);
-
-  setDefaultScale();
-  setDefaultEffect();
 };
 
 uploadingField.addEventListener('input', onUploadingFieldInput);

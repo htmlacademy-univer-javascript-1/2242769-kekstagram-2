@@ -1,9 +1,10 @@
-import { renderPhotos } from './render.js';
+import { renderPhotos } from './pictures.js';
 import { sendRequest } from './fetch.js';
 import './big_picture.js';
 import './form.js';
-import './validate-form.js';
+import './validate_form.js';
 import './effects.js';
+import './filters.js';
 import './zoom.js';
 
 let photos = [];
@@ -11,6 +12,7 @@ let photos = [];
 const onSuccess = (data) => {
   photos = data.slice();
   renderPhotos(photos);
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 };
 
 const onFail = () => {
@@ -27,4 +29,8 @@ const onFail = () => {
   document.body.append(messageAlert);
 };
 
+const getData = () => photos;
+
 sendRequest(onSuccess, onFail, 'GET');
+
+export { getData };

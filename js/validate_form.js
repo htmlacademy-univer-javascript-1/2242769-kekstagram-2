@@ -1,4 +1,4 @@
-import { sendData } from './form-sending.js';
+import { sendData } from './form_sending.js';
 
 const MaxValues = {
   COMMENT_SYNBOLS: 140,
