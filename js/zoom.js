@@ -1,25 +1,28 @@
-const STEP_SCALE = 25;
-const MIN_SCALE_VALUE = 25;
-const MAX_SCALE_VALUE = 100;
 const RADIX = 10;
+
+const Scale = {
+  STEP: 25,
+  MIN_VALUE: 25,
+  MAX_VALUE: 100,
+};
 
 const imageOverlay = document.querySelector('.img-upload__overlay');
 const image = imageOverlay.querySelector('.img-upload__preview').querySelector('img');
 const scaleControl = imageOverlay.querySelector('.img-upload__scale');
 const scaleField = scaleControl.querySelector('.scale__control--value');
 
-const setDefaultZoom = () => {
-  scaleField.value = `${MAX_SCALE_VALUE}%`;
+const setDefaultScale = () => {
+  scaleField.value = `${Scale.MAX_VALUE}%`;
   image.style = `transform: scale(${1})`;
 };
 
 const setCorrectValue = (scaleValue) => {
-  if (scaleValue < MIN_SCALE_VALUE) {
-    return MIN_SCALE_VALUE;
+  if (scaleValue < Scale.MIN_VALUE) {
+    return Scale.MIN_VALUE;
   }
 
-  if (scaleValue > MAX_SCALE_VALUE) {
-    return MAX_SCALE_VALUE;
+  if (scaleValue > Scale.MAX_VALUE) {
+    return Scale.MAX_VALUE;
   }
 
   return scaleValue;
@@ -31,20 +34,17 @@ const onScaleControlClick = (evt) => {
   if (target.tagName === 'BUTTON') {
     let value = scaleField.value;
     value = scaleField.value.substr(0, value.length - 1);
-    let scaleCoefficient = 1;
 
-    if (target.classList.contains('scale__control--smaller')) {
-      scaleCoefficient = -1;
-    }
+    const scaleCoefficient = target.classList.contains('scale__control--smaller') ? -1 : 1;
 
-    value = parseInt(value, RADIX) + STEP_SCALE * scaleCoefficient;
+    value = parseInt(value, RADIX) + Scale.STEP * scaleCoefficient;
     value = setCorrectValue(value);
 
-    image.style = `transform: scale(${value / MAX_SCALE_VALUE})`;
+    image.style = `transform: scale(${value / Scale.MAX_VALUE})`;
     scaleField.value = `${value}%`;
   }
 };
 
 scaleControl.addEventListener('click', onScaleControlClick);
 
-export { setDefaultZoom };
+export { setDefaultScale };
